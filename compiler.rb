@@ -41,6 +41,7 @@ provider_name = nil
 force_provider = nil
 types_to_generate = []
 version = 'ga'
+$cloud = "GCP"
 
 ARGV << '-h' if ARGV.empty?
 Google::LOGGER.level = Logger::INFO
@@ -71,6 +72,10 @@ OptionParser.new do |opt|
   opt.on('-v', '--version VERSION', 'API version to generate') do |v|
     version = v
   end
+  opt.on('-c', '--cloud CLOUD', 'Target cloud platform ("GCP" for Google Cloud Platform or 
+    "MAC" for Microsoft Azure Cloud, "GCP" by defualt)') do |c|
+    $cloud = c.upcase
+  end
   opt.on('-h', '--help', 'Show this message') do
     puts opt
     exit
@@ -85,6 +90,7 @@ raise 'Cannot use -p/--products and -a/--all simultaneously' if product_names &&
 raise 'Either -p/--products OR -a/--all must be present' if product_names.nil? && !all_products
 raise 'Option -o/--output is a required parameter' if output_path.nil?
 raise 'Option -e/--engine is a required parameter' if provider_name.nil?
+raise 'Option -c/--cloud should be either "GCP" or "MAC"' if $cloud != "GCP" && $cloud != "MAC"
 
 if all_products
   product_names = []
@@ -154,8 +160,10 @@ end
 # of the products loop. This will get called with the provider from the final iteration
 # of the loop
 
-# TODO: Azure Swith
-#provider&.copy_common_files(output_path, version)
-#provider&.compile_common_files(output_path, version)
-
+# Multi Cloud Swith
+if $cloud == "GCP"  
+  provider&.copy_common_files(output_path, version)
+  provider&.compile_common_files(output_path, version)
+end
+  
 # rubocop:enable Metrics/BlockLength
