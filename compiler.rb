@@ -41,7 +41,7 @@ provider_name = nil
 force_provider = nil
 types_to_generate = []
 version = 'ga'
-$cloud = "GCP"
+$cloud = 'GCP'
 
 ARGV << '-h' if ARGV.empty?
 Google::LOGGER.level = Logger::INFO
@@ -90,7 +90,7 @@ raise 'Cannot use -p/--products and -a/--all simultaneously' if product_names &&
 raise 'Either -p/--products OR -a/--all must be present' if product_names.nil? && !all_products
 raise 'Option -o/--output is a required parameter' if output_path.nil?
 raise 'Option -e/--engine is a required parameter' if provider_name.nil?
-raise 'Option -c/--cloud should be either "GCP" or "MAC"' if $cloud != "GCP" && $cloud != "MAC"
+raise 'Option -c/--cloud should be either "GCP" or "MAC"' if $cloud != 'GCP' && $cloud != 'MAC'
 
 if all_products
   product_names = []
@@ -159,11 +159,9 @@ end
 # In order to only copy/compile files once per provider this must be called outside
 # of the products loop. This will get called with the provider from the final iteration
 # of the loop
-
-# Multi Cloud Swith
-if $cloud == "GCP"  
+if $cloud == "GCP"
   provider&.copy_common_files(output_path, version)
   provider&.compile_common_files(output_path, version)
 end
-  
+
 # rubocop:enable Metrics/BlockLength

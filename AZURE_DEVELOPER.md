@@ -101,3 +101,11 @@ Generating schema definition is simple in Ansible since we only need to call `to
 Marshalling is another tough job to do because Azure SDK objects are deeply hierarchical objects. Both Ansible and Terraform handle it in a recursive way (recursive code template). We put both-way marshalling code templates in `templates/azure/[terraform|ansible]/sdktypes` folder. You will be able to find the corresponding helper functions by using the names of the templates.
 
 It is not too difficult to generate Azure SDK API calls since they are all defined in `azure_sdk_definitions` section of `api.yaml`. Typically API calls are put directly in the resource/module code template, but with an reusable method call sub-template.
+
+## Command Line Option
+
+Besides the basic command line options, we add the `-c (--cloud)` option for users to specify the target cloud platform. The supported parameters are:
+* “GCP”： Google Cloud Platform (by default).
+* “MAC”： Microsoft Azure Cloud
+
+The option records the choice of cloud platform by maintaining a global variable in the entry file `compiler.rb`. The variable controls the switches to different code logic according to different cloud platforms in the follwing files, `api/resource.rb`, `api/type.rb`, `provider/ansible.rb`, `provider/terraform.rb`.

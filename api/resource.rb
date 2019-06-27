@@ -182,9 +182,7 @@ module Api
 
       validate_identity unless @identity.nil?
 
-      if $cloud == "MAC"
-        azure_validate
-      end
+      azure_validate if $cloud == 'MAC'
     end
 
     # ====================

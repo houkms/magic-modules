@@ -74,9 +74,7 @@ module Api
 
     def validate
       super
-      if $cloud == "MAC"
-        azure_validate
-      end
+      azure_validate if $cloud == 'MAC'
       check :description, type: ::String, required: true
       check :exclude, type: :boolean, default: false, required: true
       check :deprecation_message, type: ::String
