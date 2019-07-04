@@ -104,8 +104,8 @@ It is not too difficult to generate Azure SDK API calls since they are all defin
 
 ## Command Line Option
 
-Besides the basic command line options, we add the `-c (--cloud)` option for users to specify the target cloud platform. The supported parameters are:
-* “GCP”： Google Cloud Platform (by default).
-* “MAC”： Microsoft Azure Cloud
+Besides the basic command line options, we add the `-c (--cloud)` option for users to specify the target cloud platform. The supported values are:
+* “gcp”： Google Cloud Platform (by default).
+* “azure”： Microsoft Azure Cloud
 
-The option records the choice of cloud platform by maintaining a global variable in the entry file `compiler.rb`. The variable controls the switches to different code logic according to different cloud platforms in the follwing files, `api/resource.rb`, `api/type.rb`, `provider/ansible.rb`, `provider/terraform.rb`.
+The option records the choice of cloud platform by maintaining a global variable in the entry file `compiler.rb`. The variable controls the switches to different code logic according to different cloud platforms in the follwing files, `api/resource.rb`, `api/type.rb`, `provider/core.rb`, `provider/config.rb`, `provider/ansible.rb`, `provider/ansible/documentation.rb`, `provider/terraform.rb`, `provider/terraform/sub_template.rb`.

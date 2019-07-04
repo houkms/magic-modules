@@ -41,7 +41,7 @@ provider_name = nil
 force_provider = nil
 types_to_generate = []
 version = 'ga'
-$cloud = 'GCP'
+$target_is_azure = false
 
 ARGV << '-h' if ARGV.empty?
 Google::LOGGER.level = Logger::INFO
@@ -72,9 +72,10 @@ OptionParser.new do |opt|
   opt.on('-v', '--version VERSION', 'API version to generate') do |v|
     version = v
   end
-  opt.on('-c', '--cloud CLOUD', 'Target cloud platform ("GCP" for Google Cloud Platform or 
-    "MAC" for Microsoft Azure Cloud, "GCP" by defualt)') do |c|
-    $cloud = c.upcase
+  opt.on('-c', '--cloud CLOUD', 'Target cloud platform ("gcp" for Google Cloud Platform or 
+    "azure" for Microsoft Azure Cloud, "gcp" by default)') do |c|
+    $target_is_azure = true if c == 'azure'
+    raise 'Option -c/--cloud must be either "gcp" or "azure"' if c != 'gcp' && c != 'azure'
   end
   opt.on('-h', '--help', 'Show this message') do
     puts opt
@@ -90,7 +91,6 @@ raise 'Cannot use -p/--products and -a/--all simultaneously' if product_names &&
 raise 'Either -p/--products OR -a/--all must be present' if product_names.nil? && !all_products
 raise 'Option -o/--output is a required parameter' if output_path.nil?
 raise 'Option -e/--engine is a required parameter' if provider_name.nil?
-raise 'Option -c/--cloud should be either "GCP" or "MAC"' if $cloud != 'GCP' && $cloud != 'MAC'
 
 if all_products
   product_names = []
@@ -159,7 +159,7 @@ end
 # In order to only copy/compile files once per provider this must be called outside
 # of the products loop. This will get called with the provider from the final iteration
 # of the loop
-if $cloud == "GCP"
+unless $target_is_azure
   provider&.copy_common_files(output_path, version)
   provider&.compile_common_files(output_path, version)
 end

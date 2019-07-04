@@ -67,7 +67,7 @@ module Provider
                                     config.resource_override,
                                     config.property_override)
       config.spread_api config, api, [], '' unless api.nil?
-      config.azure_parse cfg_file
+      config.azure_parse cfg_file if $target_is_azure
       config.validate
       api.validate
       [api, config]
@@ -88,7 +88,7 @@ module Provider
       check :overrides, type: Overrides::ResourceOverrides,
                         default: Overrides::ResourceOverrides.new
 
-      azure_validate
+      azure_validate if $target_is_azure
     end
 
     # Provides the API object to any type that requires, e.g. for validation

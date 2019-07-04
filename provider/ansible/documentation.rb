@@ -84,7 +84,8 @@ module Provider
       end
 
       def autogen_notice_contrib
-        azure_autogen_notic_contrib ['Please read more about how to change this file at',
+        return azure_autogen_notic_contrib if $target_is_azure
+        ['Please read more about how to change this file at',
          'https://www.github.com/GoogleCloudPlatform/magic-modules']
       end
 

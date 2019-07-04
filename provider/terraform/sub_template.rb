@@ -66,9 +66,11 @@ module Provider
       private
 
       def autogen_notice_contrib
-        # TODO: Azure Switch
-        ['Please read more about how to change this file at',
-         'https://github.com/Azure/magic-module-specs']
+        # Azure Switch
+        return ['Please read more about how to change this file at',
+                'https://github.com/Azure/magic-module-specs'] if $target_is_azure
+        ['Please read more about how to change this file in',
+         '.github/CONTRIBUTING.md.']
       end
 
       def autogen_notice_text(line)
@@ -78,7 +80,8 @@ module Provider
       def compile_template(template_file, data)
         ctx = binding
         data.each { |name, value| ctx.local_variable_set(name, value) }
-        azure_compile_template(compile_file(ctx, template_file).join("\n"), data)
+        return azure_compile_template(compile_file(ctx, template_file).join("\n"), data) if $target_is_azure
+        compile_file(ctx, template_file).join("\n")
       end
     end
   end

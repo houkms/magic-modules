@@ -50,9 +50,9 @@ module Provider
           }
         end
 
-        def azure_autogen_notic_contrib(lines)
-          lines[1] = 'https://github.com/Azure/magic-module-specs'
-          lines
+        def azure_autogen_notic_contrib
+          ['Please read more about how to change this file at',
+           'https://github.com/Azure/magic-module-specs']
         end
 
         private
