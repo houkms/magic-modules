@@ -282,10 +282,6 @@ module Provider
         )
       end
 
-      def gcp_compile_datasource(data)
-        
-      end
-
       def compile_datasource(data)
         # Azure Switch
         return azure_compile_datasource data if $target_is_azure
