@@ -39,7 +39,7 @@ func flatten<%= sdk_marshal.resource -%><%= descriptor.func_name -%>(input *<%= 
         return results
     }
 
-    for _, item := range input {
+    for _, item := range *input {
         v := make(map[string]interface{})
 
 <%= lines(build_sdk_object_to_property('item', 'v', sdk_marshal.clone(nil, property.nested_properties), 8)) -%>

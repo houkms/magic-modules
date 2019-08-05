@@ -74,6 +74,7 @@ func expand<%= sdk_marshal.resource -%><%= descriptor.func_name -%>(input <%= go
 <%        elsif property.is_a?(Api::Type::Array) -%>
     results := make([]<%= sdk_marshal.package -%>.<%= sdk_marshal.sdktype.go_type_name -%>, 0)
     for _, v := range input {
+      v := v.(map[string]interface{})
 <%          nested_properties.each do |prop| -%>
 <%            var_name = get_sdk_typedef_by_references(prop.azure_sdk_references, sdk_marshal.sdktype.type_definitions).go_variable_name -%>
 <%            output_var = var_name || prop.name.camelcase(:lower) -%>
