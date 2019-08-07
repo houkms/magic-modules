@@ -120,7 +120,6 @@ func expand<%= sdk_marshal.resource -%><%= descriptor.func_name -%>(input <%= go
 <%       end -%>
 <%     end # nested_properties, array of resourcerefs, else -%>
 <%   else -%>
-  // TODO: Expand Property '<%= property.name -%>' of type <%= property.class -%> is not supported
-}
+// TODO: Expand Property '<%= property.name -%>' of type <%= property.class -%> is not supported
 <%   end # tf_types.include?(property.class) -%>
 <% end # custom_code check -%>
