@@ -89,7 +89,7 @@ module Provider
           when Api::Type::Boolean, Api::Type::Enum, Api::Type::String, Api::Type::Integer, Api::Type::Double, Api::Type::KeyValuePairs
             'templates/azure/terraform/schemas/basic_set.erb'
           when Api::Type::Array, Api::Type::NestedObject
-            return 'templates/azure/terraform/schemas/string_array_set.erb' if property.is_a?(Api::Type::Array) && property.item_type.is_a?(Api::Type::String)
+            return 'templates/azure/terraform/schemas/string_array_set.erb' if property.is_a?(Api::Type::Array) && (property.item_type.is_a?(Api::Type::String) || property.item_type == "Api::Type::String")
             'templates/azure/terraform/schemas/flatten_set.erb'
           else
             'templates/azure/terraform/schemas/unsupport.erb'

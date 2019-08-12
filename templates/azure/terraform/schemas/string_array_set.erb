@@ -1,5 +1,5 @@
 <%  if output_var == 'd' -%>
-d.Set("<%= prop_name -%>", utils.FlattenStringArray(<%= input_var -%>))
+d.Set("<%= prop_name -%>", utils.FlattenStringSlice(<%= input_var -%>))
 <%  else -%>
-<%= output_var -%>["<%= prop_name -%>"] = utils.FlattenStringArray(<%= input_var -%>)
+<%= output_var -%>["<%= prop_name -%>"] = utils.FlattenStringSlice(<%= input_var -%>)
 <%  end -%>

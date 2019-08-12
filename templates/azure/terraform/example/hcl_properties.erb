@@ -12,6 +12,9 @@
 <%=       prop[0].ljust(prop_alignment) -%> = "<%= prop[1] -%>"
 <%      elsif prop[1].is_a?(Integer) || prop[1].is_a?(TrueClass) || prop[1].is_a?(FalseClass) -%>
 <%=       prop[0].ljust(prop_alignment) -%> = <%= lines(prop[1].to_s) -%>
+<%      elsif prop[1].is_a?(Array) && (prop[1].length == 0 || prop[1][0].is_a?(String))
+          res_arr = prop[1].collect{|elem| "\""+elem.to_s+"\""} -%>
+<%=       prop[0].ljust(prop_alignment) -%> = [<%= res_arr.join(", ") -%>]
 <%      else -%>
 // TODO: Unsupported property "<%= prop[0] -%>" value <%= lines(prop[1]) -%>
 <%
@@ -24,7 +27,7 @@
         blocks.each do |block|
 -%>
 
-<%=       prop[0] -%> = {
+<%=       prop[0] -%> {
 <%=       lines(build_hcl_properties(block)) -%>
 }
 <%
