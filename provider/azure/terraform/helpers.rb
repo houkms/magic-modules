@@ -14,6 +14,10 @@ module Provider
           sorted_other = data_source_input.empty? ? order_properties(other_props) : other_props.sort_by(&:name)
           sorted_special + sorted_other
         end
+
+        def is_tags?(property)
+          property[0] == "tags"
+        end
       end
     end
   end
