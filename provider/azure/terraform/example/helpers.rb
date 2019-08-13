@@ -21,27 +21,27 @@ module Provider
             flatten_example_properties_to_check(example_props, true)
           end
 
-          def flatten_example_properties_to_check(properties, is_nested)
-            return properties unless is_nested
+          def flatten_example_properties_to_check(properties, has_nested_item)
+            return properties unless has_nested_item
             flat_properties = Hash.new
-            next_is_nested = false
+            has_nested_item = false
             properties.each do |pn, pv|
               if pv.is_a?(Hash)
                 pv.each do |key, val|
-                  flat_properties[pn+"."+key] = val
-                  next_is_nested = true if val.is_a?(Hash) || val.is_a?(Array)
+                  flat_properties["#{pn}.#{key}"] = val
+                  has_nested_item = true if val.is_a?(Hash) || val.is_a?(Array)
                 end
               elsif pv.is_a?(Array)
-                flat_properties[pn+".#"] = pv.length
+                flat_properties["#{pn}.#"] = pv.length
                 pv.each_index do |ind|
-                  flat_properties[pn+"."+ind.to_s] = pv[ind]
-                  next_is_nested = true if pv[ind].is_a?(Hash) || pv[ind].is_a?(Array)
+                  flat_properties["#{pn}.#{ind}"] = pv[ind]
+                  has_nested_item = true if pv[ind].is_a?(Hash) || pv[ind].is_a?(Array)
                 end
               else
                 flat_properties[pn] = pv
               end
             end
-            return flatten_example_properties_to_check(flat_properties, next_is_nested)
+            return flatten_example_properties_to_check(flat_properties, has_nested_item)
           end
         end
       end
