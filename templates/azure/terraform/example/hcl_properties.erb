@@ -27,7 +27,7 @@
         blocks.each do |block|
 -%>
 
-<%=       prop[0] -%> <%= "= " if is_tags?(prop)-%>{
+<%=       prop[0] -%> <%= "= " if prop[0] == "tags"-%>{
 <%=       lines(build_hcl_properties(block)) -%>
 }
 <%
