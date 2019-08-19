@@ -40,6 +40,10 @@ module Provider
             return 'templates/azure/terraform/schemas/hide_from_schema.erb' if get_property_value(property, "hide_from_schema", false)
             return 'templates/azure/terraform/sdktypes/plain_var_field_assign.erb' if property.is_a?(Api::Azure::Type::BooleanEnum)
             case sdk_type
+            when Api::Azure::SDKTypeDefinition::Integer32ArrayObject, Api::Azure::SDKTypeDefinition::Integer64ArrayObject
+              'templates/azure/terraform/sdktypes/integer_array_field_assign.erb'
+            when Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject, Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+              'templates/azure/terraform/sdktypes/datetime_and_duration_field_assign.erb'
             when Api::Azure::SDKTypeDefinition::BooleanObject, Api::Azure::SDKTypeDefinition::StringObject,
                  Api::Azure::SDKTypeDefinition::IntegerObject, Api::Azure::SDKTypeDefinition::FloatObject,
                  Api::Azure::SDKTypeDefinition::StringArrayObject, Api::Azure::SDKTypeDefinition::StringMapObject
@@ -63,7 +67,9 @@ module Provider
             when Api::Azure::SDKTypeDefinition::BooleanObject, Api::Azure::SDKTypeDefinition::StringObject,
                  Api::Azure::SDKTypeDefinition::IntegerObject, Api::Azure::SDKTypeDefinition::Integer32Object,
                  Api::Azure::SDKTypeDefinition::Integer64Object, Api::Azure::SDKTypeDefinition::FloatObject,
-                 Api::Azure::SDKTypeDefinition::StringArrayObject, Api::Azure::SDKTypeDefinition::StringMapObject
+                 Api::Azure::SDKTypeDefinition::StringArrayObject, Api::Azure::SDKTypeDefinition::StringMapObject,
+                 Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject, Api::Azure::SDKTypeDefinition::ISO8601DurationObject,
+                 Api::Azure::SDKTypeDefinition::Integer32ArrayObject, Api::Azure::SDKTypeDefinition::Integer64ArrayObject
               'templates/azure/terraform/sdktypes/primitive_schema_assign.erb'
             when Api::Azure::SDKTypeDefinition::EnumObject
               'templates/azure/terraform/sdktypes/enum_schema_assign.erb'

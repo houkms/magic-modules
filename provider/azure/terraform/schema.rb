@@ -68,6 +68,8 @@ module Provider
             !is_data_source ? 'templates/azure/terraform/schemas/location.erb' : 'templates/azure/terraform/schemas/datasource_location.erb'
           elsif property.is_a?(Api::Azure::Type::Tags)
             !is_data_source ? 'templates/azure/terraform/schemas/tags.erb' : 'templates/azure/terraform/schemas/datasource_tags.erb'
+          elsif property.is_a?(Api::Azure::Type::ISO8601DateTime) || property.is_a?(Api::Azure::Type::ISO8601Duration)
+            'templates/azure/terraform/schemas/datetime_and_duration.erb'
           elsif property.is_a?(Api::Type::Boolean) ||
                 property.is_a?(Api::Type::Enum) ||
                 property.is_a?(Api::Type::String) ||
@@ -112,6 +114,8 @@ module Provider
             'templates/azure/terraform/schemas/tags_set.erb'
           elsif property.is_a?(Api::Azure::Type::BooleanEnum)
             'templates/azure/terraform/schemas/boolean_enum_set.erb'
+          elsif property.is_a?(Api::Azure::Type::ISO8601DateTime) || property.is_a?(Api::Azure::Type::ISO8601Duration)
+            'templates/azure/terraform/schemas/datetime_and_duration_set.erb'
           elsif property.is_a?(Api::Type::Boolean) ||
                 property.is_a?(Api::Type::Enum) ||
                 property.is_a?(Api::Type::String) ||
@@ -121,7 +125,9 @@ module Provider
             'templates/azure/terraform/schemas/basic_set.erb'
           elsif property.is_a?(Api::Type::Array) ||
                 property.is_a?(Api::Type::NestedObject)
-            return 'templates/azure/terraform/schemas/string_array_set.erb' if property.is_a?(Api::Type::Array) && (property.item_type.is_a?(Api::Type::String) || property.item_type == "Api::Type::String")
+            return 'templates/azure/terraform/schemas/string_array_set.erb' if property.is_a?(Api::Type::Array) && (property.item_type.is_a?(Api::Type::String) ||
+              property.item_type == "Api::Type::String" || property.item_type == "Api::Azure::Type::ResourceReference")
+            return 'templates/azure/terraform/schemas/integer_array_set.erb' if property.is_a?(Api::Type::Array) && property.item_type == "Api::Type::Integer"
             'templates/azure/terraform/schemas/flatten_set.erb'
           else
             'templates/azure/terraform/schemas/unsupport.erb'

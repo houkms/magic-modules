@@ -1,0 +1,45 @@
+"<%= property.name.underscore -%>": {
+    Type: schema.TypeString,
+<%  if property.default_from_api && data_source_input.empty? -%>
+    Computed: true,
+    Optional: true,
+<%     if property.schema_config_mode_attr -%>
+    ConfigMode: schema.SchemaConfigModeAttr,
+<%     end -%>
+<%   elsif property.required && (data_source_input.empty? || data_source_input.include?(property)) -%>
+    Required: true,
+<%   elsif property.output || (!data_source_input.empty? && !data_source_input.include?(property)) -%>
+    Computed: true,
+<%   else -%>
+    Optional: true,
+<%   end -%>
+<%   if property.deprecated? -%>
+    Deprecated: "<%= property.deprecation_message %>",
+<%   end -%>
+<%   if force_new?(property, object) && data_source_input.empty? -%>
+    ForceNew: true,
+<%   end -%>
+<%   if !property.validation.nil? && !property.output -%>
+<%     if property.is_a?(Api::Azure::Type::ISO8601DateTime) -%>
+    ValidateFunc: validateRFC3339Date,
+<%     elsif property.is_a?(Api::Azure::Type::ISO8601Duration) -%>
+    ValidateFunc: validateIso8601Duration(),
+<%     end -%>
+<%   end -%>
+<%   if !property.diff_suppress_func.nil? -%>
+    DiffSuppressFunc: <%= property.diff_suppress_func %>,
+<%   end -%>
+<%   unless property.state_func.nil? -%>
+    StateFunc: <%= property.state_func %>,
+<%   end -%>
+<%   if property.sensitive -%>
+    Sensitive: true,
+<%   end -%>
+<%   unless property.default_value.nil? || !data_source_input.empty? -%>
+    Default: <%= azure_go_literal(property.default_value) -%>,
+<%   end -%>
+<%   unless property.conflicting().empty? -%>
+<% conflicting_props = property.conflicting().map(&:name).map(&:underscore) -%>
+    ConflictsWith: <%= azure_go_literal(conflicting_props) -%>,
+<%   end -%>
+},

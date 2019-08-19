@@ -1,0 +1,4 @@
+<%= sdk_marshal.sdktype.go_field_name -%><%=   in_structure ? ': ' : ' = ' -%>
+<%  sdk_marshal.enqueue(property) -%>
+expandIntegerArray(<%= property.name.camelcase(:lower) -%>
+)<%= ',' if in_structure -%>

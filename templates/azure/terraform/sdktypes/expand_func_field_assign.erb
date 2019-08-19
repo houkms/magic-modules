@@ -1,7 +1,7 @@
 <%= sdk_marshal.sdktype.go_field_name -%><%=   in_structure ? ': ' : ' = ' -%>
 <%  if expand_funcs.include?(property.class) -%>
 <%=   expand_func(property) -%>(<%= property.name.camelcase(:lower) -%>
-<%  elsif property.is_a?(Api::Type::Array) && (property.item_type.is_a?(Api::Type::String) || property.item_type == "Api::Type::String") -%>
+<%  elsif property.is_a?(Api::Type::Array) && (property.item_type.is_a?(Api::Type::String) || property.item_type == "Api::Type::String" || property.item_type == "Api::Azure::Type::ResourceReference") -%>
 utils.ExpandStringSlice(<%= property.name.camelcase(:lower) -%>
 <%  else -%>
 <%    expand_func_name = sdk_marshal.enqueue(property) -%>

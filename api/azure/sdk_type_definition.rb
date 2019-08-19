@@ -99,6 +99,11 @@ module Api
       class StringMapObject < SDKTypeDefinition
       end
 
+      class Integer32ArrayObject < SDKTypeDefinition
+      end
+
+      class Integer64ArrayObject < SDKTypeDefinition
+      end
     end
   end
 end

@@ -7,7 +7,36 @@
                            prefix: sdk_marshal.resource,
                            property: property)) -%>
 <%  else -%>
-<%    if property.is_a?(Api::Type::Map) -%>
+<%    if property.is_a?(Api::Type::Array) && property.item_type == 'Api::Type::Integer'
+      bit_number = 32 if sdk_marshal.sdktype.type_definition.is_a?(Api::Azure::SDKTypeDefinition::Integer32ArrayObject)
+      bit_number = 64 if sdk_marshal.sdktype.type_definition.is_a?(Api::Azure::SDKTypeDefinition::Integer64ArrayObject)
+-%>
+func expandIntegerArray(input []interface{}) *[]int<%= bit_number -%> {
+    result := make([]int<%= bit_number -%>, 0)
+    
+    for _, item := range input {
+        v := item.(int)
+        result = append(result, int<%= bit_number -%>(v))
+    }
+    
+    return &result
+}
+<%    elsif property.is_a?(Api::Azure::Type::ISO8601DateTime) -%>
+func convertStringToDate(input interface{}) *date.Time {
+  v := input.(string)
+  
+  dateTime, err := date.ParseTime(time.RFC3339, v)
+  if err != nil {
+      log.Printf("[ERROR] Cannot convert an invalid string to RFC3339 date %q: %+v", v, err)
+      return nil
+  }
+  
+  result := date.Time{
+      Time: dateTime,
+  }
+  return &result
+}
+<%    elsif property.is_a?(Api::Type::Map) -%>
 func expand<%= sdk_marshal.resource -%><%= titlelize_property(property) -%>(v interface{}, d *schema.ResourceData, config *Config) (map[string]interface{}, error) {
   if v == nil {
     return map[string]interface{}{}, nil
