@@ -40,8 +40,9 @@ module Provider
             has_nested_item = false
             properties.each do |pn, pv|
               if pv.is_a?(Hash)
+                flat_properties["#{pn}.#"] = pv.empty? ? 0 : 1
                 pv.each do |key, val|
-                  flat_properties["#{pn}.#{key}"] = val
+                  flat_properties["#{pn}.0.#{key}"] = val
                   has_nested_item = true if val.is_a?(Hash) || val.is_a?(Array)
                 end
               elsif pv.is_a?(Array)
