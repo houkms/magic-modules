@@ -19,7 +19,7 @@
 <%   if force_new?(property, object) && data_source_input.empty? -%>
     ForceNew: true,
 <%   end -%>
-<%   if !property.validation.nil? && !property.output -%>
+<%   if property.validation.nil? && !property.output -%>
 <%     if property.is_a?(Api::Azure::Type::ISO8601DateTime) -%>
     ValidateFunc: validateRFC3339Date,
 <%     elsif property.is_a?(Api::Azure::Type::ISO8601Duration) -%>

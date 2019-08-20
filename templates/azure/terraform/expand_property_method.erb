@@ -66,15 +66,18 @@ func expand<%= sdk_marshal.resource -%><%= titlelize_property(property) -%>(v in
 <%#      lines(build_azure_expand_method(sdk_marshal.resource + titlelize_property(property), prop), 1) -%>
 <%      end -%>
 <%    elsif property.is_a?(Api::Type::KeyValuePairs) -%>
-func expand<%= sdk_marshal.resource -%><%= titlelize_property(property) -%>(v interface{}, d *schema.ResourceData, config *Config) (map[string]string, error) {
-  if v == nil {
-    return map[string]string{}, nil
-  }
-  m := make(map[string]string)
-  for k, val := range v.(map[string]interface{}) {
-    m[k] = val.(string)
-  }
-  return m, nil
+func expand<%= sdk_marshal.resource -%><%= titlelize_property(property) -%>(v interface{}) map[string]*string {
+    if v == nil {
+        return map[string]*string{}
+    }
+    
+    results := make(map[string]*string)
+    for k, val := range v.(map[string]interface{}) {
+        result := val.(string)
+        results[k] = &result
+    }
+    
+    return results
 }
 <%    elsif tf_types.include?(property.class) -%>
 func expand<%= sdk_marshal.resource -%><%= descriptor.func_name -%>(input <%= go_type(property) -%>) *<%= '[]' if property.is_a?(Api::Type::Array) -%><%= sdk_marshal.package -%>.<%= sdk_marshal.sdktype.go_type_name -%> {

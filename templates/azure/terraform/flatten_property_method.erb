@@ -37,6 +37,19 @@ func flattenIntegerArray(input *[]int<%= bit_number -%>) []interface{} {
 
     return results
 }
+<% elsif property.is_a?(Api::Type::KeyValuePairs) -%>
+func flatten<%= sdk_marshal.resource -%><%= descriptor.func_name -%>(input map[string]*string) map[string]interface{} {
+    results := map[string]interface{}{}
+    if input == nil {
+      return results
+    }
+
+    for k, val := range input {
+      results[k] = *val
+    }
+
+    return results
+}
 <% elsif tf_types.include?(property.class) -%>
 func flatten<%= sdk_marshal.resource -%><%= descriptor.func_name -%>(input *<%= '[]' if property.is_a?(Api::Type::Array) -%><%= sdk_marshal.package -%>.<%= sdk_marshal.sdktype.go_type_name -%>) []interface{} {
 <% if property.is_a?(Api::Type::NestedObject) -%>
