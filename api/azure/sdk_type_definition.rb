@@ -104,6 +104,7 @@ module Api
 
       class StringMapObject < SDKTypeDefinition
       end
+
     end
   end
 end
