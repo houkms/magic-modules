@@ -1,4 +1,5 @@
+<% bit_number = 32 if sdk_marshal.sdktype.type_definition.is_a?(Api::Azure::SDKTypeDefinition::Integer32ArrayObject) -%>
+<% bit_number = 64 if sdk_marshal.sdktype.type_definition.is_a?(Api::Azure::SDKTypeDefinition::Integer64ArrayObject) -%>
 <%= sdk_marshal.sdktype.go_field_name -%><%=   in_structure ? ': ' : ' = ' -%>
-<%  sdk_marshal.enqueue(property) -%>
-expandIntegerArray(<%= property.name.camelcase(:lower) -%>
+utils.ExpandInteger<%= bit_number -%>Slice(<%= property.name.camelcase(:lower) -%>
 )<%= ',' if in_structure -%>

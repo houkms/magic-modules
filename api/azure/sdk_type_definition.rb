@@ -64,6 +64,12 @@ module Api
       class Integer64Object < SDKTypeDefinition
       end
 
+      class Integer32ArrayObject < SDKTypeDefinition
+      end
+
+      class Integer64ArrayObject < SDKTypeDefinition
+      end
+
       class FloatObject < SDKTypeDefinition
       end
 
@@ -97,12 +103,6 @@ module Api
       end
 
       class StringMapObject < SDKTypeDefinition
-      end
-
-      class Integer32ArrayObject < SDKTypeDefinition
-      end
-
-      class Integer64ArrayObject < SDKTypeDefinition
       end
     end
   end

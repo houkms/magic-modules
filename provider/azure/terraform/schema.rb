@@ -68,8 +68,6 @@ module Provider
             !is_data_source ? 'templates/azure/terraform/schemas/location.erb' : 'templates/azure/terraform/schemas/datasource_location.erb'
           elsif property.is_a?(Api::Azure::Type::Tags)
             !is_data_source ? 'templates/azure/terraform/schemas/tags.erb' : 'templates/azure/terraform/schemas/datasource_tags.erb'
-          elsif property.is_a?(Api::Azure::Type::ISO8601DateTime) || property.is_a?(Api::Azure::Type::ISO8601Duration)
-            'templates/azure/terraform/schemas/datetime_and_duration.erb'
           elsif property.is_a?(Api::Type::Boolean) ||
                 property.is_a?(Api::Type::Enum) ||
                 property.is_a?(Api::Type::String) ||
@@ -77,7 +75,9 @@ module Provider
                 property.is_a?(Api::Type::Double) ||
                 property.is_a?(Api::Type::Array) ||
                 property.is_a?(Api::Type::KeyValuePairs) ||
-                property.is_a?(Api::Type::NestedObject)
+                property.is_a?(Api::Type::NestedObject) ||
+                property.is_a?(Api::Azure::Type::ISO8601DateTime) ||
+                property.is_a?(Api::Azure::Type::ISO8601Duration)
             'templates/azure/terraform/schemas/primitive.erb'
           else
             'templates/azure/terraform/schemas/unsupport.erb'
@@ -128,6 +128,7 @@ module Provider
             return 'templates/azure/terraform/schemas/string_array_set.erb' if property.is_a?(Api::Type::Array) && (property.item_type.is_a?(Api::Type::String) ||
               property.item_type == "Api::Type::String" || property.item_type == "Api::Azure::Type::ResourceReference")
             return 'templates/azure/terraform/schemas/integer_array_set.erb' if property.is_a?(Api::Type::Array) && property.item_type == "Api::Type::Integer"
+            return 'templates/azure/terraform/schemas/key_value_pairs_set.erb' if property.is_a?(Api::Type::KeyValuePairs)
             'templates/azure/terraform/schemas/flatten_set.erb'
           else
             'templates/azure/terraform/schemas/unsupport.erb'

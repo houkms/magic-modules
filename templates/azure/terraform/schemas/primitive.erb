@@ -40,7 +40,11 @@
 <%   elsif property.required && property.is_a?(Api::Type::String) && (data_source_input.empty? || data_source_input.include?(property)) -%>
     ValidateFunc: validate.NoEmptyStrings,
 <%   end # property.validation.nil?  -%>
-<%   if property.is_a?(Api::Type::Enum) && property.validation.nil? && !property.output && (data_source_input.empty? || data_source_input.include?(property)) -%>
+<%   if property.is_a?(Api::Azure::Type::ISO8601DateTime) && property.validation.nil? && !property.output && (data_source_input.empty? || data_source_input.include?(property)) -%>
+    ValidateFunc: validateRFC3339Date,
+<%   elsif property.is_a?(Api::Azure::Type::ISO8601Duration) && property.validation.nil? && !property.output && (data_source_input.empty? || data_source_input.include?(property)) -%>
+    ValidateFunc: validateIso8601Duration(),
+<%   elsif property.is_a?(Api::Type::Enum) && property.validation.nil? && !property.output && (data_source_input.empty? || data_source_input.include?(property)) -%>
 <%
        enum_values = property.values
        sdk_type = get_sdk_typedef_by_references(property.azure_sdk_references, object.azure_sdk_definition.create.request)
@@ -88,20 +92,9 @@
     },
 <%       end -%>
 <%     elsif property.item_type.is_a?(String) # Basic type like Api::Type::String
-         schema_types = Hash[  
-           'Api::Type::Boolean' => 'schema.TypeBool',
-           'Api::Type::Double' => 'schema.TypeFloat',
-           'Api::Type::Integer' => 'schema.TypeInt',
-           'Api::Type::String' => 'schema.TypeString',
-           'Api::Type::Time' => 'schema.TypeString',
-           'Api::Type::Enum' => 'schema.TypeString',
-           'Api::Type::ResourceRef' => 'schema.TypeString',
-           'Api::Type::Fingerprint' => 'schema.TypeString',
-           'Api::Azure::Type::ResourceReference' => 'schema.TypeString'
-         ]
 -%>
     Elem: &schema.Schema{
-        Type: <%= schema_types[property.item_type] -%>,
+        Type: <%= tf_types[property.item_type] -%>,
     },
 <%     else # array of basic types -%>
     Elem: &schema.Schema{

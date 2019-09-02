@@ -48,6 +48,10 @@ module Provider
       def azure_tf_types(map)
         map[Api::Azure::Type::ResourceReference] = 'schema.TypeString'
         map[Api::Azure::Type::BooleanEnum] = 'schema.TypeBool'
+        map[Api::Azure::Type::ISO8601DateTime] = 'schema.TypeString'
+        map[Api::Azure::Type::ISO8601Duration] = 'schema.TypeString'
+        map['Api::Azure::Type::ResourceReference'] = 'schema.TypeString'
+        map['Api::Type::Integer'] = 'schema.TypeInt'
         map
       end
 

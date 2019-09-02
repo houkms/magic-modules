@@ -3,6 +3,8 @@
 <%=   expand_func(property) -%>(<%= property.name.camelcase(:lower) -%>
 <%  elsif property.is_a?(Api::Type::Array) && (property.item_type.is_a?(Api::Type::String) || property.item_type == "Api::Type::String" || property.item_type == "Api::Azure::Type::ResourceReference") -%>
 utils.ExpandStringSlice(<%= property.name.camelcase(:lower) -%>
+<%  elsif property.is_a?(Api::Type::KeyValuePairs) -%>
+utils.ExpandKeyValuePairs(<%= property.name.camelcase(:lower) -%>
 <%  else -%>
 <%    expand_func_name = sdk_marshal.enqueue(property) -%>
 expand<%= sdk_marshal.resource -%><%= expand_func_name -%>(<%= property.name.camelcase(:lower) -%>
