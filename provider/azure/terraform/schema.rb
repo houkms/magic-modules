@@ -55,7 +55,7 @@ module Provider
             Api::Type::Integer => 'utils.Int',
             Api::Type::Double => 'utils.Float',
             Api::Azure::Type::Location => "utils.String",
-            Api::Azure::Type::Tags => 'expandTags',
+            Api::Azure::Type::Tags => 'tags.Expand',
             Api::Azure::Type::ResourceReference => "utils.String"
           }
         end

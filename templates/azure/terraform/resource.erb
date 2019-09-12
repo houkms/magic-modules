@@ -97,7 +97,7 @@ func resource<%= resource_name -%><%= create_func_name_postfix -%>(d *schema.Res
 <%=   lines(build_schema_property_get('d', output_var, prop, sdk_marshal, 4)) -%>
 <%  end -%>
 
-    if requireResourcesToBeImported {
+    if features.ShouldResourcesBeImported() && d.IsNewResource() {
         resp, err := <%= lines(build_sdk_func_invocation(object.azure_sdk_definition.read)) -%>
         if err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
@@ -111,7 +111,8 @@ func resource<%= resource_name -%><%= create_func_name_postfix -%>(d *schema.Res
 
 <%  settable_properties.select{|p| get_applicable_reference(p.azure_sdk_references, sdk_operation.request).start_with?("/")}.sort_by{|p| [p.order, p.name]}.each do |prop| -%>
 <%    var_name = get_sdk_typedef_by_references(prop.azure_sdk_references, sdk_operation.request).go_variable_name -%>
-<%    output_var = var_name || prop.name.camelcase(:lower) -%>
+<%    special_known_name = (prop.name == 'tags' ? 't' : nil) -%>
+<%    output_var = var_name || special_known_name || prop.name.camelcase(:lower) -%>
 <%=   lines(build_schema_property_get('d', output_var, prop, sdk_marshal, 4)) -%>
 <%  end -%>
 
@@ -192,7 +193,8 @@ func resource<%= resource_name -%><%= update_func_name_postfix -%>(d *schema.Res
 <%  updatable_properties.sort_by{|p| [p.order, p.name]}.each do |prop| -%>
 <%    if prop.name != "location" -%>
 <%      var_name = get_sdk_typedef_by_references(prop.azure_sdk_references, sdk_operation.request).go_variable_name -%>
-<%      output_var = var_name || prop.name.camelcase(:lower) -%>
+<%      special_known_name = (prop.name == 'tags' ? 't' : nil) -%>
+<%      output_var = var_name || special_known_name || prop.name.camelcase(:lower) -%>
 <%=     lines(build_schema_property_get('d', output_var, prop, sdk_marshal, 4)) -%>
 <%    end -%>
 <%  end -%>

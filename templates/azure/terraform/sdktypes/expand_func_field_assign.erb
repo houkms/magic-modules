@@ -1,6 +1,9 @@
 <%= sdk_marshal.sdktype.go_field_name -%><%=   in_structure ? ': ' : ' = ' -%>
+<%  var_name = sdk_marshal.sdktype.type_definition.go_variable_name -%>
+<%  special_known_name = (property.name == 'tags' ? 't' : nil) -%>
+<%  input_var = var_name || special_known_name || property.name.camelcase(:lower) -%>
 <%  if expand_funcs.include?(property.class) -%>
-<%=   expand_func(property) -%>(<%= property.name.camelcase(:lower) -%>
+<%=   expand_func(property) -%>(<%= input_var -%>
 <%  elsif property.is_a?(Api::Type::Array) && (property.item_type.is_a?(Api::Type::String) || property.item_type == "Api::Type::String" || property.item_type == "Api::Azure::Type::ResourceReference") -%>
 utils.ExpandStringSlice(<%= property.name.camelcase(:lower) -%>
 <%  elsif property.is_a?(Api::Type::KeyValuePairs) -%>

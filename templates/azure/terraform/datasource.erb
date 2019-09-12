@@ -36,7 +36,8 @@ func dataSource<%= resource_name -%>Read(d *schema.ResourceData, meta interface{
 
 <%  input_properties.sort_by{|p| [p.order, p.name]}.each do |prop| -%>
 <%    var_name = get_sdk_typedef_by_references(prop.azure_sdk_references, sdk_operation.request).go_variable_name -%>
-<%    output_var = var_name || prop.name.camelcase(:lower) -%>
+<%    special_known_name = (prop.name == 'tags' ? 't' : nil) -%>
+<%    output_var = var_name || special_known_name || prop.name.camelcase(:lower) -%>
 <%=   lines(build_schema_property_get('d', output_var, prop, sdk_marshal, 4)) -%>
 <%  end -%>
 
