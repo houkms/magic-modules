@@ -46,6 +46,7 @@ module Api
         @empty_value_sensitive = overrides.empty_value_sensitive unless overrides.empty_value_sensitive.nil?
         @go_variable_name = overrides.go_variable_name unless overrides.go_variable_name.nil?
         @go_field_name = overrides.go_field_name unless overrides.go_field_name.nil?
+        @go_type_name = overrides.go_type_name unless overrides.go_type_name.nil?
         @is_pointer_type = overrides.is_pointer_type unless overrides.is_pointer_type.nil?
         @python_parameter_name = overrides.python_parameter_name unless overrides.python_parameter_name.nil?
         @python_variable_name = overrides.python_variable_name unless overrides.python_variable_name.nil?
