@@ -27,6 +27,14 @@ module Provider
           sorted_other = data_source_input.empty? ? order_properties(other_props) : other_props.sort_by(&:name)
           sorted_special + sorted_other
         end
+
+        def is_tags_defined?(sdk_operation)
+          sdk_operation.response.has_key?('/tags')
+        end
+
+        def go_field_name_of_tags(sdk_operation)
+          sdk_operation.response['/tags'].go_field_name
+        end
       end
     end
   end
