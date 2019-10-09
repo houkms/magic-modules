@@ -1,4 +1,6 @@
 <%  input_var = sdk_marshal.sdktype.type_definition.go_variable_name || input + "." + sdk_marshal.sdktype.type_definition.go_field_name -%>
-<%  get_properties_matching_sdk_reference(sdk_marshal.properties, sdk_marshal.sdktype.typedef_reference).each do |property| -%>
-<%=   lines(build_schema_property_set(input_var, output, property, sdk_marshal.clone())) -%>
+<%  get_properties_matching_sdk_reference(sdk_marshal.properties, sdk_marshal.sdktype.typedef_reference).each do |property|
+      if !property.is_a?(Api::Azure::Type::Tags) -%>
+<%=     lines(build_schema_property_set(input_var, output, property, sdk_marshal.clone())) -%>
+<%    end -%>
 <%  end -%>

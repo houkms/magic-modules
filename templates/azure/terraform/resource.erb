@@ -183,7 +183,8 @@ func resource<%= resource_name -%>Read(d *schema.ResourceData, meta interface{})
 
 <%= lines(build_sdk_object_to_property('resp', 'd', sdk_marshal)) -%>
 
-    return nil
+    return <%= is_tags_defined?(sdk_operation) ? "tags.FlattenAndSet(d, resp.#{go_field_name_of_tags(sdk_operation)})" : 'nil' -%>
+
 }
 
 <%  if !combine_create_update -%>
