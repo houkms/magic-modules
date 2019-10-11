@@ -22,10 +22,10 @@ module Provider
 
         def order_azure_properties(properties, data_source_input = [])
           special_props = properties.select{|p| p.name == 'name' || p.name == 'location' || p.name == 'resourceGroupName' || p.name == 'resourceGroup' || data_source_input.include?(p)}
-          other_props = properties.reject{|p| p.name == 'name' || p.name == 'location' || p.name == 'resourceGroupName' || p.name == 'resourceGroup' || data_source_input.include?(p)}
+          other_props = properties.reject{|p| p.name == 'name' || p.name == 'location' || p.name == 'resourceGroupName' || p.name == 'resourceGroup' || p.name == 'tags' || data_source_input.include?(p)}
           sorted_special = special_props.sort_by{|p| p.name == 'location' ? 2 : p.order }
           sorted_other = data_source_input.empty? ? order_properties(other_props) : other_props.sort_by(&:name)
-          sorted_special + sorted_other
+          sorted_special + sorted_other + properties.select{|p| p.name == 'tags'}
         end
       end
     end
