@@ -1,0 +1,7 @@
+<%  if output_var == 'd' -%>
+if err := d.Set("<%= prop_name -%>", utils.FlattenFloat64Slice(<%= input_var -%>)); err != nil {
+    return fmt.Errorf("Error setting `<%= prop_name -%>`: %+v", err)
+}
+<%  else -%>
+<%= output_var -%>["<%= prop_name -%>"] = utils.FlattenFloat64Slice(<%= input_var -%>)
+<%  end -%>

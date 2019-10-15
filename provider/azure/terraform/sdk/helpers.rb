@@ -42,6 +42,8 @@ module Provider
             case sdk_type
             when Api::Azure::SDKTypeDefinition::Integer32ArrayObject, Api::Azure::SDKTypeDefinition::Integer64ArrayObject
               'templates/azure/terraform/sdktypes/integer_array_field_assign.erb'
+            when Api::Azure::SDKTypeDefinition::FloatArrayObject
+              'templates/azure/terraform/sdktypes/float_array_field_assign.erb'
             when Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject, Api::Azure::SDKTypeDefinition::ISO8601DurationObject
               'templates/azure/terraform/sdktypes/datetime_and_duration_field_assign.erb'
             when Api::Azure::SDKTypeDefinition::BooleanObject, Api::Azure::SDKTypeDefinition::StringObject,
@@ -70,7 +72,8 @@ module Provider
                  Api::Azure::SDKTypeDefinition::Integer64Object, Api::Azure::SDKTypeDefinition::FloatObject,
                  Api::Azure::SDKTypeDefinition::StringArrayObject, Api::Azure::SDKTypeDefinition::StringMapObject,
                  Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject, Api::Azure::SDKTypeDefinition::ISO8601DurationObject,
-                 Api::Azure::SDKTypeDefinition::Integer32ArrayObject, Api::Azure::SDKTypeDefinition::Integer64ArrayObject
+                 Api::Azure::SDKTypeDefinition::Integer32ArrayObject, Api::Azure::SDKTypeDefinition::Integer64ArrayObject,
+                 Api::Azure::SDKTypeDefinition::FloatArrayObject
               'templates/azure/terraform/sdktypes/primitive_schema_assign.erb'
             when Api::Azure::SDKTypeDefinition::EnumObject
               'templates/azure/terraform/sdktypes/enum_schema_assign.erb'

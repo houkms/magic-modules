@@ -128,6 +128,7 @@ module Provider
             return 'templates/azure/terraform/schemas/string_array_set.erb' if property.is_a?(Api::Type::Array) && (property.item_type.is_a?(Api::Type::String) ||
               property.item_type == "Api::Type::String" || property.item_type == "Api::Azure::Type::ResourceReference")
             return 'templates/azure/terraform/schemas/integer_array_set.erb' if property.is_a?(Api::Type::Array) && property.item_type == "Api::Type::Integer"
+            return 'templates/azure/terraform/schemas/float_array_set.erb' if property.is_a?(Api::Type::Array) && property.item_type == "Api::Type::Double"
             return 'templates/azure/terraform/schemas/key_value_pairs_set.erb' if property.is_a?(Api::Type::KeyValuePairs)
             'templates/azure/terraform/schemas/flatten_set.erb'
           else

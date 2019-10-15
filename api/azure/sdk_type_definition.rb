@@ -74,6 +74,9 @@ module Api
       class FloatObject < SDKTypeDefinition
       end
 
+      class FloatArrayObject < FloatObject
+      end
+
       class StringObject < SDKTypeDefinition
       end
 

@@ -1,0 +1,3 @@
+<%= sdk_marshal.sdktype.go_field_name -%><%=   in_structure ? ': ' : ' = ' -%>
+utils.ExpandFloat64Slice(<%= property.name.camelcase(:lower) -%>
+)<%= ',' if in_structure -%>

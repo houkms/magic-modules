@@ -52,6 +52,7 @@ module Provider
         map[Api::Azure::Type::ISO8601Duration] = 'schema.TypeString'
         map['Api::Azure::Type::ResourceReference'] = 'schema.TypeString'
         map['Api::Type::Integer'] = 'schema.TypeInt'
+        map['Api::Type::Double'] = 'schema.TypeFloat'
         map
       end
 
