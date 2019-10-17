@@ -100,14 +100,14 @@ func resource<%= resource_name -%><%= create_func_name_postfix -%>(d *schema.Res
 <%  end -%>
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        resp, err := <%= lines(build_sdk_func_invocation(object.azure_sdk_definition.read)) -%>
+        existing, err := <%= lines(build_sdk_func_invocation(object.azure_sdk_definition.read)) -%>
         if err != nil {
-            if !utils.ResponseWasNotFound(resp.Response) {
+            if !utils.ResponseWasNotFound(existing.Response) {
                 return <%= lines(build_errorf_with_resource_name("Error checking for present of existing %s", true, object.azure_sdk_definition.read, properties, object)) -%>
             }
         }
-        if !utils.ResponseWasNotFound(resp.Response) {
-            return tf.ImportAsExistsError("<%= terraform_name -%>", *resp.ID)
+        if existing.ID != nil && *existing.ID != "" {
+            return tf.ImportAsExistsError("<%= terraform_name -%>", *existing.ID)
         }
     }
 
